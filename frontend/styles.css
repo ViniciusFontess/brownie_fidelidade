@@ -1,0 +1,15 @@
+:root{--bg:#f7f7fb;--card:#fff;--accent:#6b46c1;--muted:#6b7280}
+*{box-sizing:border-box}
+body{font-family:Inter,system-ui,Arial; background:var(--bg); margin:0;color:#111}
+.container{max-width:900px;margin:28px auto;padding:0 16px}
+.site-header{background:linear-gradient(90deg,#6b46c1,#b794f4);color:white;padding:18px 0}
+.site-header .container{display:flex;align-items:center;justify-content:space-between}
+.brand{margin:0;font-weight:700}
+.main-nav a{color:rgba(255,255,255,0.95);margin-left:18px;text-decoration:none;font-weight:600}
+.card{background:var(--card);padding:22px;border-radius:10px;box-shadow:0 6px 20px rgba(16,24,40,0.08);margin-top:18px}
+.input{display:block;width:100%;padding:10px 12px;margin:8px 0 16px;border:1px solid #e6e6ee;border-radius:8px}
+.btn{background:var(--accent);color:white;border:none;padding:10px 16px;border-radius:8px;font-weight:700;cursor:pointer}
+table{width:100%;border-collapse:collapse;margin-top:18px}
+th,td{padding:12px;border-bottom:1px solid #eee;text-align:left}
+th{color:var(--muted);font-size:13px}
+.muted{color:#6b7280}

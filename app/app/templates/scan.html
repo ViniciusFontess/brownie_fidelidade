@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+  <div class="card">
+    <h2>Registrar compra</h2>
+    <form id="purchase-form" action="{{ url_for('main.api_purchases') }}" method="post">
+      <label>CPF: <input type="text" name="cpf" required placeholder="Apenas números" class="input"></label>
+      <label>Quantidade: <input type="number" name="quantity" value="1" min="1" required class="input"></label>
+      <button type="submit" class="btn">Registrar</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('purchase-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const res = await fetch(form.action, { method: 'POST', body: fd });
+      const json = await res.json();
+      if (res.ok) {
+        alert('Compra registrada. Obrigado!');
+        form.reset();
+      } else {
+        alert('Erro: ' + (json.error || JSON.stringify(json)));
+      }
+    });
+  </script>
+
+{% endblock %}

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin - Brownie Fidelidade</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand">Brownie</h1>
+      <nav class="main-nav">
+        <a href="/index.html">Fidelidade</a>
+        <a href="/admin.html">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <h2>Admin</h2>
+      <div id="content">Carregando...</div>
+    </div>
+  </main>
+
+  <script type="module">
+    // Preencha estas constantes com seus dados do Supabase
+    const SUPABASE_URL = 'REPLACE_WITH_SUPABASE_URL';
+    const SUPABASE_ANON_KEY = 'REPLACE_WITH_SUPABASE_ANON_KEY';
+
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+    async function loadAdmin() {
+      // consulta agregada: soma por cpf
+      const { data, error } = await supabase
+        .from('purchases')
+        .select('cpf, sum(quantity) as total')
+        .group('cpf')
+        .order('total', { ascending: false })
+
+      const el = document.getElementById('content')
+      if (error) {
+        el.innerText = 'Erro ao carregar: ' + error.message
+        return
+      }
+      if (!data || data.length === 0) {
+        el.innerText = 'Nenhum registro'
+        return
+      }
+      const table = document.createElement('table')
+      const thead = document.createElement('thead')
+      thead.innerHTML = '<tr><th>CPF</th><th>Total</th><th>Prêmios</th></tr>'
+      table.appendChild(thead)
+      const tbody = document.createElement('tbody')
+      data.forEach(row => {
+        const tr = document.createElement('tr')
+        const cpf = row.cpf
+        const total = parseInt(row.total, 10) || 0
+        const prizes = Math.floor(total / 10)
+        tr.innerHTML = `<td>${cpf}</td><td>${total}</td><td>${prizes}</td>`
+        tbody.appendChild(tr)
+      })
+      table.appendChild(tbody)
+      el.innerHTML = ''
+      el.appendChild(table)
+    }
+
+    loadAdmin()
+  </script>
+</body>
+</html>

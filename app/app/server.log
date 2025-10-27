@@ -1,0 +1,6 @@
+nohup: ignorando entrada
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/home/vinicius/brownie_fidelidade/app/app/app.py", line 5, in <module>
+    from .db import get_db
+ImportError: attempted relative import with no known parent package

@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+  <h2>Admin</h2>
+  <div class="card">
+    <table>
+      <thead><tr><th>CPF</th><th>Total Brownies</th><th>Prêmios (10/unid)</th></tr></thead>
+      <tbody>
+        {% for r in results %}
+          <tr>
+            <td>{{ r.cpf }}</td>
+            <td>{{ r.total }}</td>
+            <td>{{ r.prizes }}</td>
+          </tr>
+        {% else %}
+          <tr><td colspan="3">Nenhum registro</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+{% endblock %}

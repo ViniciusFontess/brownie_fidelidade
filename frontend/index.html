@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fidelidade - Brownie</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand">Brownie</h1>
+      <nav class="main-nav">
+        <a href="/index.html">Fidelidade</a>
+        <a href="/admin.html">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <h2>Registrar compra</h2>
+      <form id="purchase-form">
+        <label>CPF
+          <input id="cpf" name="cpf" class="input" placeholder="Apenas números" required>
+        </label>
+        <label>Quantidade
+          <input id="quantity" name="quantity" type="number" class="input" value="1" min="1" required>
+        </label>
+        <button id="submit" class="btn">Registrar</button>
+      </form>
+      <p class="muted">Este formulário envia diretamente ao Supabase. Veja <a href="/admin.html">Admin</a>.</p>
+    </div>
+  </main>
+
+  <script type="module">
+    // Preencha estas constantes com seus dados do Supabase
+    const SUPABASE_URL = 'REPLACE_WITH_SUPABASE_URL';
+    const SUPABASE_ANON_KEY = 'REPLACE_WITH_SUPABASE_ANON_KEY';
+
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+    const form = document.getElementById('purchase-form')
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault()
+      const cpf = document.getElementById('cpf').value.trim()
+      const quantity = parseInt(document.getElementById('quantity').value, 10) || 0
+      if (!cpf || quantity <= 0) {
+        alert('Preencha CPF e quantidade válidos')
+        return
+      }
+
+      const { data, error } = await supabase
+        .from('purchases')
+        .insert([{ cpf, quantity }])
+
+      if (error) {
+        console.error(error)
+        alert('Erro ao registrar: ' + error.message)
+      } else {
+        alert('Registro salvo. Obrigado!')
+        form.reset()
+      }
+    })
+  </script>
+</body>
+</html>
